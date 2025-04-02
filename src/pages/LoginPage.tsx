@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
         title: "Login Successful",
         description: "Welcome back to GiftCardMarket!"
       });
-      navigate(`/${redirectTo}`);
+      navigate(redirectTo.startsWith("/") ? redirectTo : `/${redirectTo}`);
     } catch (error) {
       console.error("Login failed:", error);
       toast({

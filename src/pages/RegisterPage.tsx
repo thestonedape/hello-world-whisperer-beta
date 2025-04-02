@@ -61,11 +61,20 @@ const RegisterPage: React.FC = () => {
         description: "Welcome to GiftCardMarket! Your account has been created."
       });
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Registration failed:", error);
+      
+      // Determine the error message based on Firebase error
+      let errorMessage = "There was an error creating your account. Please try again.";
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "This email is already in use. Please try another email or log in.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "Password is too weak. Please use a stronger password.";
+      }
+      
       toast({
         title: "Registration Failed",
-        description: "There was an error creating your account. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     }
