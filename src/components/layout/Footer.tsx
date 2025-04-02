@@ -2,6 +2,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Footer component for the application
+// Displays information, links, and newsletter signup
+// IMPORTANT: Customize the links, content, and newsletter functionality as needed
+
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-100 py-8">

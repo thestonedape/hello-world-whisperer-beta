@@ -2,6 +2,7 @@
 // Root application component
 // Configures global providers, routing, and overall app structure
 // Includes authentication, cart, and query client providers
+// IMPORTANT: Add any new routes for your application here
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";

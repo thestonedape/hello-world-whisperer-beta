@@ -20,6 +20,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { createOrder } from "@/lib/mockData";
 import { useToast } from "@/hooks/use-toast";
 
+// Checkout page component
+// Handles the checkout process for the shopping cart
+// IMPORTANT: The current implementation uses mock data (createOrder).
+// You'll need to modify this to connect to your actual payment processing
+// and order management system.
+
 interface CheckoutFormData {
   name: string;
   email: string;

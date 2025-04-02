@@ -3,6 +3,10 @@
 // Manages global state for shopping cart operations
 // Provides methods to add, remove, and manipulate cart items
 // Calculates total price and discount for cart items
+// IMPORTANT: You may need to modify this file if you want to:
+// - Persist cart data to localStorage or a database
+// - Add more complex cart functionality like quantity changes
+// - Implement coupon codes or additional discount logic
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
