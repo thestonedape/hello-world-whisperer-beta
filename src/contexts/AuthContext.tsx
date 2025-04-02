@@ -1,4 +1,8 @@
 
+// Authentication Context
+// Provides global authentication state and methods for login, logout, and registration
+// Manages user authentication using Firebase Authentication
+
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { 
   User as FirebaseUser, 

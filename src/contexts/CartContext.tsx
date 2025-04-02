@@ -1,4 +1,9 @@
 
+// Cart Context
+// Manages global state for shopping cart operations
+// Provides methods to add, remove, and manipulate cart items
+// Calculates total price and discount for cart items
+
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Define types for cart items

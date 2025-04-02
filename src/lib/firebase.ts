@@ -1,4 +1,6 @@
 
+// Firebase configuration and initialization
+// Centralizes Firebase service setup for authentication, firestore, and storage
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
