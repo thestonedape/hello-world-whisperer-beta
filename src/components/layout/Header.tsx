@@ -33,7 +33,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto flex flex-col items-center px-4 py-4 md:flex-row md:justify-between">
         <div className="flex w-full items-center justify-between md:w-auto">
           <Link to="/" className="text-2xl font-bold text-primary">
-            GiftCardMarket
+            Givzo
           </Link>
           
           <div className="flex items-center space-x-2 md:hidden">

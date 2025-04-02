@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
-            <h3 className="mb-4 text-lg font-bold">GiftCardMarket</h3>
+            <h3 className="mb-4 text-lg font-bold">Givzo</h3>
             <p className="text-sm text-gray-600">
               Your one-stop shop for discounted gift cards. Save money on your
               favorite brands today!
@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
         
         <div className="mt-8 border-t border-gray-200 pt-8 text-center">
           <p className="text-sm text-gray-600">
-            &copy; {new Date().getFullYear()} GiftCardMarket. All rights reserved.
+            &copy; {new Date().getFullYear()} Givzo. All rights reserved.
           </p>
         </div>
       </div>

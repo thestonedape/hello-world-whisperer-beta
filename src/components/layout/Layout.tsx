@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
-        <p className="mt-4 text-gray-600">Loading...</p>
+        <p className="mt-4 text-gray-600">Loading Givzo...</p>
       </div>
     );
   }
