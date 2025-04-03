@@ -3,6 +3,9 @@ import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
 
+// This function simulates resending a gift card email
+// In a production app, this would call a serverless function (like Firebase Cloud Functions)
+// that would use nodemailer to send actual emails
 export const resendGiftCardEmail = async (orderId: string, userId: string): Promise<boolean> => {
   try {
     // Fetch the user document to get their email
@@ -26,17 +29,48 @@ export const resendGiftCardEmail = async (orderId: string, userId: string): Prom
       return false;
     }
     
-    // For now, we're still simulating the API call
-    // In a production app, you would call a serverless function
-    // or use a service like SendGrid, Mailgun, etc.
+    // IMPORTANT: This is a frontend-only simulation
+    // In a real implementation, you would:
+    // 1. Call a backend API or Firebase Cloud Function
+    // 2. The backend would use nodemailer to send the actual email
+    // 
+    // Example Cloud Function code (would be in a separate backend file):
+    // 
+    // const nodemailer = require('nodemailer');
+    // 
+    // exports.sendGiftCardEmail = functions.https.onCall(async (data, context) => {
+    //   // Create a transporter object
+    //   const transporter = nodemailer.createTransport({
+    //     service: 'gmail',  // or another provider
+    //     auth: {
+    //       user: process.env.EMAIL_USER,
+    //       pass: process.env.EMAIL_PASSWORD
+    //     }
+    //   });
+    // 
+    //   // Set up email options
+    //   const mailOptions = {
+    //     from: 'your-app@example.com',
+    //     to: data.userEmail,
+    //     subject: 'Your Gift Card from Givzo',
+    //     html: `<h1>Your Gift Card</h1>
+    //            <p>Order #${data.orderId}</p>
+    //            <p>Thank you for your purchase!</p>`
+    //   };
+    // 
+    //   // Send the email
+    //   await transporter.sendMail(mailOptions);
+    //   
+    //   return { success: true };
+    // });
     
-    console.log(`Sending email to: ${userEmail} for order ${orderId}`);
+    console.log(`Would send real email to: ${userEmail} for order ${orderId}`);
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     // Log the action
-    console.log(`Successfully resent gift card email for order ${orderId} to ${userEmail}`);
+    console.log(`Successfully simulated resending gift card email for order ${orderId} to ${userEmail}`);
     
     // Return success
     return true;
