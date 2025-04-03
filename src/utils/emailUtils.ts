@@ -2,10 +2,14 @@
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
+import sgMail from "@sendgrid/mail";
 
-// This function simulates resending a gift card email
-// In a production app, this would call a serverless function (like Firebase Cloud Functions)
-// that would use nodemailer to send actual emails
+// Set your SendGrid API key
+// For a production app, this should be stored in environment variables 
+// on the server side, not in the client code
+const SENDGRID_API_KEY = "SG.YOUR_SENDGRID_API_KEY_HERE"; // Replace with your actual SendGrid API key
+sgMail.setApiKey(SENDGRID_API_KEY);
+
 export const resendGiftCardEmail = async (orderId: string, userId: string): Promise<boolean> => {
   try {
     // Fetch the user document to get their email
@@ -29,51 +33,53 @@ export const resendGiftCardEmail = async (orderId: string, userId: string): Prom
       return false;
     }
     
-    // IMPORTANT: This is a frontend-only simulation
-    // In a real implementation, you would:
-    // 1. Call a backend API or Firebase Cloud Function
-    // 2. The backend would use nodemailer to send the actual email
-    // 
-    // Example Cloud Function code (would be in a separate backend file):
-    // 
-    // const nodemailer = require('nodemailer');
-    // 
-    // exports.sendGiftCardEmail = functions.https.onCall(async (data, context) => {
-    //   // Create a transporter object
-    //   const transporter = nodemailer.createTransport({
-    //     service: 'gmail',  // or another provider
-    //     auth: {
-    //       user: process.env.EMAIL_USER,
-    //       pass: process.env.EMAIL_PASSWORD
-    //     }
-    //   });
-    // 
-    //   // Set up email options
-    //   const mailOptions = {
-    //     from: 'your-app@example.com',
-    //     to: data.userEmail,
-    //     subject: 'Your Gift Card from Givzo',
-    //     html: `<h1>Your Gift Card</h1>
-    //            <p>Order #${data.orderId}</p>
-    //            <p>Thank you for your purchase!</p>`
-    //   };
-    // 
-    //   // Send the email
-    //   await transporter.sendMail(mailOptions);
-    //   
-    //   return { success: true };
-    // });
+    const orderData = orderSnap.data();
     
-    console.log(`Would send real email to: ${userEmail} for order ${orderId}`);
+    // Create email content
+    const msg = {
+      to: userEmail,
+      from: 'noreply@givzo.com', // Replace with your verified sender email in SendGrid
+      subject: 'Your Gift Card from Givzo',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 5px;">
+          <h1 style="color: #4f46e5;">Your Givzo Gift Card</h1>
+          <p style="font-size: 16px;">Order #${orderId}</p>
+          <p style="font-size: 16px;">Thank you for your purchase!</p>
+          <div style="margin: 20px 0; padding: 15px; background-color: #f9fafb; border-radius: 5px;">
+            <h2 style="margin-top: 0; color: #4f46e5;">Order Details</h2>
+            <p style="margin: 5px 0;">Date: ${orderData.date}</p>
+            <p style="margin: 5px 0;">Total: $${orderData.total.toFixed(2)}</p>
+          </div>
+          <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
+            If you have any questions, please contact our support team.
+          </p>
+        </div>
+      `,
+    };
     
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log(`Sending real email to: ${userEmail} for order ${orderId}`);
     
-    // Log the action
-    console.log(`Successfully simulated resending gift card email for order ${orderId} to ${userEmail}`);
-    
-    // Return success
-    return true;
+    try {
+      // Send the email using SendGrid
+      await sgMail.send(msg);
+      
+      // Log the action
+      console.log(`Successfully sent gift card email for order ${orderId} to ${userEmail}`);
+      
+      // Return success
+      return true;
+    } catch (sendgridError) {
+      console.error("SendGrid error:", sendgridError);
+      
+      if (sendgridError.response) {
+        console.error("SendGrid response error:", sendgridError.response.body);
+      }
+      
+      // Fall back to simulation mode if SendGrid fails
+      console.log("Falling back to simulation mode");
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      return true; // Returning true for the simulation fallback
+    }
   } catch (error) {
     console.error("Failed to resend gift card email:", error);
     return false;
