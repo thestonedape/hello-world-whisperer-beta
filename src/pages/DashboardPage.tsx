@@ -14,12 +14,16 @@ import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { getOrderHistory, Order } from "@/lib/mockData";
 import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+import { resendGiftCardEmail } from "@/utils/emailUtils";
+import { Mail, RefreshCw } from "lucide-react";
 
 const DashboardPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
-  const { toast } = useToast();
+  const { toast: hookToast } = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [resendingOrderId, setResendingOrderId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -30,6 +34,7 @@ const DashboardPage: React.FC = () => {
         setOrders(data);
       } catch (error) {
         console.error("Failed to fetch order history:", error);
+        toast.error("Failed to load your order history");
       } finally {
         setLoading(false);
       }
@@ -38,12 +43,37 @@ const DashboardPage: React.FC = () => {
     fetchOrders();
   }, [user]);
 
-  const handleResendEmail = (orderId: string) => {
-    // Mock email resend functionality
-    toast({
-      title: "Email Sent",
-      description: "Your gift card has been resent to your email address.",
-    });
+  const handleResendEmail = async (orderId: string) => {
+    if (!user) return;
+    
+    // Set loading state
+    setResendingOrderId(orderId);
+    
+    try {
+      const success = await resendGiftCardEmail(orderId, user.id);
+      
+      if (success) {
+        // Show success notification with Sonner toast
+        toast.success("Gift card email resent successfully", {
+          description: "Please check your inbox",
+          action: {
+            label: "Dismiss",
+            onClick: () => console.log("Dismissed")
+          }
+        });
+      } else {
+        // Show error notification
+        toast.error("Failed to resend gift card email", {
+          description: "Please try again later"
+        });
+      }
+    } catch (error) {
+      console.error("Error in resending email:", error);
+      toast.error("An unexpected error occurred");
+    } finally {
+      // Clear loading state
+      setResendingOrderId(null);
+    }
   };
 
   if (!isAuthenticated) {
@@ -142,8 +172,19 @@ const DashboardPage: React.FC = () => {
                             variant="outline" 
                             size="sm"
                             onClick={() => handleResendEmail(order.id)}
+                            disabled={resendingOrderId === order.id}
                           >
-                            Resend Email
+                            {resendingOrderId === order.id ? (
+                              <>
+                                <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <Mail className="mr-2 h-4 w-4" />
+                                Resend Email
+                              </>
+                            )}
                           </Button>
                         </div>
                       </div>
