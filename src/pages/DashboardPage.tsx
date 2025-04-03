@@ -53,9 +53,9 @@ const DashboardPage: React.FC = () => {
       const success = await resendGiftCardEmail(orderId, user.id);
       
       if (success) {
-        // Show success notification with Sonner toast
-        toast.success("Gift card email resent successfully", {
-          description: "Please check your inbox",
+        // Show success notification with Sonner toast, including user's email
+        toast.success(`Gift card email resent successfully`, {
+          description: `Email sent to ${user.email}. Please check your inbox.`,
           action: {
             label: "Dismiss",
             onClick: () => console.log("Dismissed")
