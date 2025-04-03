@@ -1,22 +1,23 @@
 
 // Firebase configuration and initialization
-// Centralizes Firebase service setup for authentication, firestore, and storage
-// IMPORTANT: Replace the placeholder values with your actual Firebase config
-// You will need to create a Firebase project and obtain these values from your Firebase console
+// Centralizes Firebase service setup for authentication, analytics, firestore, and storage
+// IMPORTANT: Firebase configuration is now set with the provided project credentials
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAnalytics } from "firebase/analytics";
 
-// Your web app's Firebase configuration
-// Replace these placeholder values with your actual Firebase config later
+// Web app's Firebase configuration for Givzo
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY", // REPLACE: Add your Firebase API key here
-  authDomain: "YOUR_AUTH_DOMAIN", // REPLACE: Add your Firebase auth domain here
-  projectId: "YOUR_PROJECT_ID", // REPLACE: Add your Firebase project ID here
-  storageBucket: "YOUR_STORAGE_BUCKET", // REPLACE: Add your Firebase storage bucket here
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // REPLACE: Add your Firebase messaging sender ID here
-  appId: "YOUR_APP_ID" // REPLACE: Add your Firebase app ID here
+  apiKey: "AIzaSyAEP90TQEg7FZm_W0MDnQxbp3lR-SsEQKk",
+  authDomain: "givzo-7b792.firebaseapp.com",
+  projectId: "givzo-7b792",
+  storageBucket: "givzo-7b792.firebasestorage.app",
+  messagingSenderId: "864600122715",
+  appId: "1:864600122715:web:b2475ea5fce97366e7e67e",
+  measurementId: "G-LJLL7H7RLV"
 };
 
 // Initialize Firebase
@@ -26,5 +27,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const analytics = getAnalytics(app);
 
 export default app;
